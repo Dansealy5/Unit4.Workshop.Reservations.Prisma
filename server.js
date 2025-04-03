@@ -16,10 +16,10 @@ app.get("/api/customers", async (req, res, next) => {
     }
 })
 
-app.get("/api/resturants", async (req, res, next) => {
+app.get("/api/restaurants", async (req, res, next) => {
     try {
-        const resturants = await prisma.restaurant.findMany()
-        res.json(resturants);
+        const restaurants = await prisma.restaurant.findMany()
+        res.json(restaurants);
     } catch (error) {
         next()
     }
@@ -36,21 +36,21 @@ app.get("/api/reservations", async (req, res, next) => {
 
 app.post("/api/customers/:id/reservations", async (req, res, next) => {
     try {
-        const customerId = +req.params.id;
-        const { resturantId, date, partyCount } = req.body;
-        const reservation = await prisma.reservation.create({
-            data: {
-                customerId, 
-                resturantId, 
-                date,
-                partyCount, 
-            },
-        });
-        res.status(201).json(reservation);
-    } catch (error) {
-        next()
+      const customerId = +req.params.id;
+      const { restaurantId, date, partyCount } = req.body;
+      const reservation = await prisma.reservation.create({
+        data: {
+          customerId,
+          restaurantId,
+          date,
+          partyCount,
+        },
+      });
+      res.status(201).json(reservation);
+    } catch (err) {
+      next();
     }
-})
+});
 
 app.delete("/api/customers/:customerId/reservations/:id", async (req, res, next) => {
     try {
